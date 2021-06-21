@@ -14,7 +14,7 @@ namespace Tasker_React.Controllers
     public class TaskerController : ControllerBase
     {
         private readonly ILogger<TaskerController> _logger;
-        readonly TaskerDbContext _db;
+        private readonly TaskerDbContext _db;
 
         public TaskerController(ILogger<TaskerController> logger, TaskerDbContext context)
         {
@@ -29,7 +29,7 @@ namespace Tasker_React.Controllers
                 .OrderByDescending(objective => objective.Id)
                 .ToListAsync();
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<Objective> GetAsync(int id) =>
             await _db.Objectives.FindAsync(id);
 
@@ -46,7 +46,7 @@ namespace Tasker_React.Controllers
         [HttpPut]
         public async Task UpdateAsync([FromBody]Objective objective)
         {
-            Objective oldObjective = await _db.Objectives.FindAsync(objective.Id);
+            var oldObjective = await _db.Objectives.FindAsync(objective.Id);
 
             oldObjective.Task = objective.Task;
 
@@ -57,9 +57,9 @@ namespace Tasker_React.Controllers
         }
 
         [HttpDelete]
-        public async Task RemoveAsync([FromQuery]Objective removingObjective)
+        public async Task RemoveAsync([FromBody] Objective removingObjective)
         {
-            Objective objective = await _db.Objectives.FirstOrDefaultAsync(p => p.Id == removingObjective.Id);
+            var objective = await _db.Objectives.FirstOrDefaultAsync(p => p.Id == removingObjective.Id);
 
             _db.Objectives.Remove(objective);
 
