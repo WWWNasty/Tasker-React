@@ -30,8 +30,6 @@
         <Content Remove="$(SpaRoot)**" />
         <None Remove="$(SpaRoot)**" />
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-        <None Include="ClientApp\src\components\Layout.tsx" />
-        <None Include="ClientApp\src\components\NavMenu.tsx" />
     </ItemGroup>
 
     <ItemGroup>
