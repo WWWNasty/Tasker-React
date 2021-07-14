@@ -44,7 +44,7 @@ namespace Tasker_React.Controllers
         }
 
         [HttpPut]
-        public async Task UpdateAsync([FromBody]Objective objective)
+        public async Task<Objective> UpdateAsync([FromBody]Objective objective)
         {
             var oldObjective = await _db.Objectives.FindAsync(objective.Id);
 
@@ -54,12 +54,14 @@ namespace Tasker_React.Controllers
 
             await _db.SaveChangesAsync();
 
+            return objective;
+
         }
 
         [HttpDelete]
-        public async Task RemoveAsync([FromBody] Objective removingObjective)
+        public async Task RemoveAsync([FromBody] int id)
         {
-            var objective = await _db.Objectives.FirstOrDefaultAsync(p => p.Id == removingObjective.Id);
+            var objective = await _db.Objectives.FirstOrDefaultAsync(p => p.Id == id);
 
             _db.Objectives.Remove(objective);
 
