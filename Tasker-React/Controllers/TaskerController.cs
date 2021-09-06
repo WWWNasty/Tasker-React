@@ -25,7 +25,7 @@ namespace Tasker_React.Controllers
         [HttpGet]
         public async Task<IEnumerable<Objective>> GetAllAsync() =>
             await _db.Objectives
-                .Where(objective => !objective.Completed)
+            //.Where(objective => !objective.Completed)
                 .OrderByDescending(objective => objective.Id)
                 .ToListAsync();
 

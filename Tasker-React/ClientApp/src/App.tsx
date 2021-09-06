@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './App.css';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
+import Switch from '@material-ui/core/Switch';
 import {TaskDialog} from "./TaskDialog";
 
 
@@ -81,6 +82,20 @@ function App() {
         setOpen(true);
     }
 
+    const handleChange = async (task: Objective) => {
+        const response = await fetch("/Tasker", {
+            method: "PUT",
+            headers: {"Accept": "application/json", "Content-Type": "application/json"},
+            body: JSON.stringify({...task, completed: !task.completed})
+        })
+        if (response.ok){
+            const updatedObjective: Objective = await response.json();
+            setTasks(
+                tasks.map(t => t.id === updatedObjective.id ? updatedObjective : t)
+            );
+        }
+    };
+
     return (
         <Box className="App">
             <Button variant="outlined" color="primary" onClick={() => addTask()} className="mt-3 mb-2">
@@ -97,6 +112,13 @@ function App() {
                     <Button onClick={() => handleDelete(item.id!)} variant="contained" color="secondary">
                         Удалить
                     </Button>
+                    <Switch
+                        checked={item.completed}
+                        onChange={()=>handleChange(item)}
+                        color="primary"
+                        name="checkedB"
+                        inputProps={{ 'aria-label': 'primary checkbox' }}
+                    />
                 </li>) ?? []}
             </ol>
         </Box>
