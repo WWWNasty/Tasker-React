@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Switch from '@material-ui/core/Switch';
 import {TaskDialog} from "./TaskDialog";
+import {Dragging} from "./DragDropContext";
 
 
 function App() {
@@ -102,6 +103,7 @@ function App() {
                 Создать задачу
             </Button>
             <TaskDialog objective={selectedObjective} onAdded={handleAddTask} open={open} setOpen={setOpen}/>
+            <Dragging data={tasks}/>
             <ol>
                 {tasks?.map((item) => <li key={item.id}>{item.created}: {item.task}
                     <Button onClick={() => editTask(item)}
